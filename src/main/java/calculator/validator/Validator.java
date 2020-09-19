@@ -1,4 +1,4 @@
-package calculator;
+package calculator.validator;
 
 import java.util.Arrays;
 
@@ -14,26 +14,26 @@ public class Validator {
     public boolean validateAll() {
         values = value.split(" ");
         if (!validateLength()) {
-            System.out.println("validateLength!");
+            System.out.println("다시 입력해주세요!(원인 : validateLength)");
             return false;
         }
         if (!validateForm()) {
-            System.out.println("validateForm!");
+            System.out.println("다시 입력해주세요!(원인 : validateForm)");
             return false;
         }
         if (!dividedZero()) {
-            System.out.println("dividedZero!");
+            System.out.println("다시 입력해주세요!(원인 : dividedZero)");
             return false;
         }
         if(!validateOrderOfNumbers() || !validateOrderOfOperator()) {
-            System.out.println("validateOrderOfNumbers!");
+            System.out.println("다시 입력해주세요!(원인 : validateOrderOfNumbers)");
             return false;
         }
         return true;
     }
 
     boolean validateLength() {
-        return (values.length < 3) ? false : true;
+        return (values.length == 3) ? true : false;
     }
 
     boolean validateForm() {
