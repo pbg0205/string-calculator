@@ -14,51 +14,47 @@ public class Validator {
     public boolean validateAll() {
         values = value.split(" ");
         if (!validateLength()) {
-            System.out.println("다시 입력해주세요!(원인 : validateLength)");
-            return false;
+            throw new IllegalArgumentException("(예외)정확한 입력 값의 갯수가 아닙니다.");
         }
         if (!validateForm()) {
-            System.out.println("다시 입력해주세요!(원인 : validateForm)");
-            return false;
+            throw new IllegalArgumentException("(예외)정확한 입력 값의 형태가 아닙니다.");
         }
         if (!dividedZero()) {
-            System.out.println("다시 입력해주세요!(원인 : dividedZero)");
-            return false;
+            throw new IllegalArgumentException("(예외)0으로 값을 나눌 수 없습니다.");
         }
         if(!validateOrderOfNumbers() || !validateOrderOfOperator()) {
-            System.out.println("다시 입력해주세요!(원인 : validateOrderOfNumbers)");
-            return false;
+            throw new IllegalArgumentException("(예외)정확한 입력 값의 순서 혹은 올바른 연산자가 아닙니다.");
         }
         return true;
     }
 
-    boolean validateLength() {
-        return (values.length == 3) ? true : false;
+    private boolean validateLength() {
+        return values.length == 3;
     }
 
-    boolean validateForm() {
+    private boolean validateForm() {
         return !(Arrays.stream(values).anyMatch(x -> !isNumeric(x) && !(x.matches("[+|\\-|*|/]"))));
     }
 
-    boolean dividedZero() {
+    private boolean dividedZero() {
         return !(value.contains("/ 0"));
     }
 
-    boolean validateOrderOfNumbers() {
+    private boolean validateOrderOfNumbers() {
         int wrongCount = 0;
         for (int i = 0; i < values.length; i += 2)
             wrongCount += (isNumeric(values[i])) ? 0 : 1;
-        return (wrongCount <= 0) ? true : false;
+        return wrongCount <= 0;
     }
 
-    boolean validateOrderOfOperator() {
+    private boolean validateOrderOfOperator() {
         int wrongCount = 0;
         for (int i = 1; i < values.length; i += 2)
             wrongCount += (values[i].matches("[+|\\-|*|/]")) ? 0 : 1;
-        return (wrongCount <= 0) ? true : false;
+        return wrongCount <= 0;
     }
 
-    boolean isNumeric(String input) {
+    private boolean isNumeric(String input) {
         try {
             Double.parseDouble(input);
             return true;
